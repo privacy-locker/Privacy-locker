@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About | Privacy Locker</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Extra styles for About page */
+    .about {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .about h2 {
+      font-size: 2rem;
+      text-align: center;
+      margin-bottom: 20px;
+      color: #222;
+    }
+    .about p {
+      font-size: 1rem;
+      line-height: 1.6;
+      margin-bottom: 15px;
+      color: #444;
+    }
+    .about h3 {
+      margin-top: 20px;
+      font-size: 1.4rem;
+      color: #111;
+    }
+    .about ul {
+      list-style: none;
+      padding-left: 0;
+      margin: 15px 0;
+    }
+    .about ul li {
+      font-size: 1rem;
+      margin: 8px 0;
+      padding-left: 25px;
+      position: relative;
+      color: #333;
+    }
+    .about ul li::before {
+      content: "✔";
+      position: absolute;
+      left: 0;
+      color: #007bff;
+      font-weight: bold;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .about {
+        margin: 20px;
+        padding: 15px;
+      }
+      .about h2 {
+        font-size: 1.6rem;
+      }
+      .about p, 
+      .about ul li {
+        font-size: 0.95rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .about {
+        margin: 10px;
+        padding: 12px;
+      }
+      .about h2 {
+        font-size: 1.4rem;
+      }
+      .about p, 
+      .about ul li {
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header>
+    <nav class="navbar">
+      <div class="logo">🔐 Privacy Locker</div>
+      <ul class="nav-links">
+        <li><a href="privacyLocker.html">Home</a></li>
+        <li><a href="about.html" class="active">About</a></li>
+        <li><a href="securedata.html">Secure Data</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ABOUT CONTENT -->
+  <section class="about">
+    <h2>About Privacy Locker</h2>
+    <p>
+      Privacy Locker is a web-based folder locking software solution designed to ensure secure access to sensitive files and documents. 
+      The primary objective of this application is to protect personal or confidential data from unauthorized access using an intelligent 
+      locking mechanism.
+    </p>
+    <p>
+      The distinguishing feature of Privacy Locker is its <strong>dynamic lock system</strong> based on the current system time, 
+      which acts as a temporary, ever-changing password. Only users aware of the exact locking pattern (current system time format) 
+      at the moment of access can unlock the secured files, adding an additional layer of security that changes every minute or second, 
+      depending on the implementation.
+    </p>
+    <h3>🔑 Key Features</h3>
+    <ul>
+      <li>Encrypted Vault – Uses AES-256 encryption to secure stored files.</li>
+      <li>Dynamic One-Time Passwords – A new password is generated automatically within a fixed interval.</li>
+      <li>Time-Zone Flexibility – Password adapts to the registered timezone of the user.</li>
+      <li>Activity Monitoring – Track login attempts and identify unauthorized access.</li>
+    </ul>
+    <p>
+      Whether you are a student safeguarding assignments, a professional securing sensitive project files, or simply someone who values 
+      privacy, <strong>Privacy Locker</strong> ensures your data remains protected, accessible only to you at the right time. 
+    </p>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2025 Privacy Locker | All Rights Reserved</p>
+  </footer>
+</body>
+</html>

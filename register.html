@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register | Privacy Locker</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <nav class="navbar">
+      <div class="logo">🔐 Privacy Locker</div>
+      <ul class="nav-links">
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- REGISTER FORM -->
+<section class="form-section">
+  <form class="form-box" id="registerForm">
+    <h2>Create Account</h2>
+
+    <input type="text" placeholder="Full Name" required />
+    <input type="email" placeholder="Email" required />
+    <input type="password" placeholder="Password" required />
+    <input type="password" placeholder="Confirm Password" required />
+
+    <!-- Timezone select -->
+    <div class="select-wrapper">
+      <select id="timezone" name="timezone" required>
+        <option value="">-- Select Time Zone --</option>
+        <option value="UTC−12:00">UTC−12:00 — Baker Island (U.S.)</option>
+        <option value="UTC−11:00">UTC−11:00 — American Samoa</option>
+        <option value="UTC−10:00">UTC−10:00 — Hawaii (U.S.)</option>
+        <option value="UTC−09:00">UTC−09:00 — Alaska (U.S.)</option>
+        <option value="UTC−08:00">UTC−08:00 — Pacific Time (U.S., Canada)</option>
+        <option value="UTC−07:00">UTC−07:00 — Mountain Time (U.S., Canada)</option>
+        <option value="UTC−06:00">UTC−06:00 — Central Time (U.S., Mexico)</option>
+        <option value="UTC−05:00">UTC−05:00 — Eastern Time (U.S., Canada)</option>
+        <option value="UTC−04:00">UTC−04:00 — Atlantic Time (Canada), Caribbean</option>
+        <option value="UTC−03:00">UTC−03:00 — Argentina, Brazil</option>
+        <option value="UTC−02:00">UTC−02:00 — South Georgia & South Sandwich Islands</option>
+        <option value="UTC−01:00">UTC−01:00 — Azores (Portugal), Cape Verde</option>
+        <option value="UTC±00:00">UTC±00:00 — UK, Portugal, West Africa</option>
+        <option value="UTC+01:00">UTC+01:00 — Central Europe, Nigeria</option>
+        <option value="UTC+02:00">UTC+02:00 — South Africa, Egypt, Greece</option>
+        <option value="UTC+03:00">UTC+03:00 — Russia (Moscow), Saudi Arabia</option>
+        <option value="UTC+04:00">UTC+04:00 — UAE, Armenia, Azerbaijan</option>
+        <option value="UTC+05:00">UTC+05:00 — Pakistan, Uzbekistan</option>
+        <option value="UTC+06:00">UTC+06:00 — Bangladesh, Kazakhstan</option>
+        <option value="UTC+07:00">UTC+07:00 — Thailand, Vietnam, Indonesia (West)</option>
+        <option value="UTC+08:00">UTC+08:00 — China, Malaysia, Australia (Western)</option>
+        <option value="UTC+09:00">UTC+09:00 — Japan, Korea</option>
+        <option value="UTC+10:00">UTC+10:00 — Australia (East), Papua New Guinea</option>
+        <option value="UTC+11:00">UTC+11:00 — Solomon Islands, New Caledonia</option>
+        <option value="UTC+12:00">UTC+12:00 — New Zealand, Fiji</option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn">Register</button>
+    <p>Already have an account? <a href="login.html">Login</a></p>
+  </form>
+</section>
+
+
+  <script>
+  document.getElementById("registerForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const form = e.target;
+    const password = form.querySelector('input[placeholder="Password"]').value;
+    const confirmPassword = form.querySelector('input[placeholder="Confirm Password"]').value;
+    const timezoneSelect = form.querySelector('#timezone');
+    const timezone = timezoneSelect.value;
+    const timezoneLabel = timezoneSelect.options[timezoneSelect.selectedIndex].text;
+
+    const passwordPattern = /^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[@])[A-Za-z\d@]{8,}$/;
+
+if (password !== confirmPassword) {
+  alert("❌ Passwords do not match!");
+  return;
+}
+
+if (!passwordPattern.test(password)) {
+  alert("❌ Password must contain:\n- At least 8 characters\n- Uppercase letter\n- Lowercase letter\n- Number\n- Special symbol like(@ or _)");
+  return;
+}
+
+
+    if (!timezone) {
+      alert("❌ Please select a time zone.");
+      return;
+    }
+
+    // Save user info in localStorage (mock database)
+    localStorage.setItem("userEmail", form.querySelector('input[placeholder="Email"]').value);
+    localStorage.setItem("userPassword", password);
+    localStorage.setItem("userTimezone", timezone);
+   
+
+    // Generate locker password (time-based simple version = current HHMM)
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, "0");
+    const minutes = String(now.getMinutes()).padStart(2, "0");
+    const lockerPassword = hours + minutes;
+
+    localStorage.setItem("lockerPassword", lockerPassword);
+
+    alert(`✅ Registration successful!
+Locker Password (time-based): ${lockerPassword}
+Time Zone: ${timezoneLabel}
+Redirecting to Login...`);
+
+    window.location.href = "login.html";
+  });
+</script>
+</body>
+</html>

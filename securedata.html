@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Secure Data | Privacy Locker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- HEADER -->
+  <header>
+    <nav class="navbar">
+      <div class="logo">🔐 Privacy Locker</div>
+      <ul class="nav-links">
+        <li><a href="privacyLocker.html">Home</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="login.html" id="authLink">Login</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- PASSWORD GATE -->
+  <section class="form-section">
+    <form class="form-box" id="secureForm">
+      <h2>Enter Locker Password</h2>
+      <input type="password" id="lockerPassword" placeholder="Enter Time-based Password" required>
+      <button type="submit" class="btn">Unlock</button>
+      <p id="errorMsg" style="color:red; display:none;">❌ Wrong password. Try again.</p>
+      
+      <!-- 🔍 Debug display for developers -->
+      <p id="debugPassword" style="margin-top:10px; color:green; font-weight:bold;">
+        🔑 Current Password: ...
+      </p>
+    </form>
+
+    <!-- File Upload (hidden until unlocked) -->
+    <div class="form-box" id="lockerArea" style="display:none;">
+      <h2>Secure Data Locker</h2>
+      <input type="file" id="fileInput" multiple>
+      <button class="btn" onclick="storeFiles()">Upload Files</button>
+      <div id="fileList"></div>
+    </div>
+  </section>
+
+  <script>
+    // Normalize timezone (UTC+8 → UTC+08:00)
+    function normalizeTimezone(timezone) {
+      if (/UTC[+-]\d+$/.test(timezone)) {
+        let num = timezone.match(/UTC([+-]?\d+)/)[1];
+        timezone = "UTC" + 
+          (num.startsWith("-") 
+            ? "-" + num.slice(1).padStart(2, "0") 
+            : "+" + num.padStart(2, "0")) 
+          + ":00";
+      }
+      return timezone;
+    }
+
+    // Generate time-based password
+    function generateTimePassword() {
+      let timezone = localStorage.getItem("userTimezone") || "UTC+00:00";
+      timezone = normalizeTimezone(timezone);
+
+      const match = timezone.match(/UTC([+-]?\d+):?(\d+)?/);
+      let offsetHours = 0, offsetMinutes = 0;
+      if (match) {
+        offsetHours = parseInt(match[1]) || 0;
+        offsetMinutes = parseInt(match[2]) || 0;
+      }
+
+      let now = new Date();
+      let utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+
+      let localTime = new Date(utc + (offsetHours * 3600000) + (offsetMinutes * 60000));
+
+      let hours = String(localTime.getHours()).padStart(2, "0");
+      let minutes = String(localTime.getMinutes()).padStart(2, "0");
+
+      return hours + minutes;
+    }
+
+    // Password Check
+    document.getElementById("secureForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const enteredPassword = document.getElementById("lockerPassword").value;
+      const currentPassword = generateTimePassword();
+
+      if (enteredPassword === currentPassword) {
+        document.getElementById("secureForm").style.display = "none";
+        document.getElementById("lockerArea").style.display = "block";
+      } else {
+        document.getElementById("errorMsg").style.display = "block";
+      }
+    });
+
+    // Store Files in LocalStorage
+    function storeFiles() {
+      const input = document.getElementById("fileInput");
+      const fileList = document.getElementById("fileList");
+      fileList.innerHTML = "";
+
+      for (let file of input.files) {
+        let reader = new FileReader();
+        reader.onload = function(e) {
+          localStorage.setItem("file_" + file.name, e.target.result);
+          let li = document.createElement("p");
+          li.textContent = "✅ Stored: " + file.name;
+          fileList.appendChild(li);
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    // 🔍 Update debug password every second
+    function updateDebugPassword() {
+      const debugEl = document.getElementById("debugPassword");
+      if (debugEl) {
+        debugEl.textContent = "🔑 Current Password: " + generateTimePassword();
+      }
+    }
+    setInterval(updateDebugPassword, 1000);
+    updateDebugPassword(); // run once at start
+  </script>
+</body>
+</html>
