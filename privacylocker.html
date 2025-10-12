@@ -77,7 +77,7 @@ function updateNavbar() {
   if (isLoggedIn) {
     li.innerHTML = <a href="#" onclick="logout()">Logout</a>;
   } else {
-    li.innerHTML = <a href="login.html">Login</a>;
+    li.innerHTML = <a href="index.html">Login</a>;
   }
 
   navLinks.appendChild(li);
@@ -86,7 +86,7 @@ function updateNavbar() {
 function logout() {
   localStorage.removeItem("isLoggedIn");
   alert("You have been logged out!");
-  window.location.href = "login.html";
+  window.location.href = "index.html";
 }
 
 // Call on page load
