@@ -1,24 +1,32 @@
-// Show selected section
-function showSection(id) {
-  document.querySelectorAll("section").forEach(sec => sec.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
-}
+<script>
+  // Check login state (using localStorage for demo)
+  function updateNavbar() {
+    const navLinks = document.getElementById("navLinks");
+    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
 
-// Toggle password visibility
-function togglePassword() {
-  const pwd = document.getElementById("password");
-  pwd.type = (pwd.type === "password") ? "text" : "password";
-}
+    // Remove old login/logout if exists
+    const existingAuthLink = document.querySelector("#authLink");
+    if (existingAuthLink) existingAuthLink.remove();
 
-// Handle login form
-document.getElementById("loginForm").addEventListener("submit", e => {
-  e.preventDefault();
-  showSection("dashboard");
-});
+    // Add new Login or Logout
+    const li = document.createElement("li");
+    li.id = "authLink";
 
-// Handle register form
-document.getElementById("registerForm").addEventListener("submit", e => {
-  e.preventDefault();
-  alert("Registration Successful! Please login.");
-  showSection("login");
-});
+    if (isLoggedIn) {
+      li.innerHTML = '<a href="#" onclick="logout()">Logout</a>';
+    } else {
+      li.innerHTML = '<a href="index.html">Login</a>';
+    }
+
+    navLinks.appendChild(li);
+  }
+
+  function logout() {
+    localStorage.removeItem("isLoggedIn");
+    alert("You have been logged out!");
+    window.location.href = "index.html";
+  }
+
+  // Call on page load
+  updateNavbar();
+</script>
